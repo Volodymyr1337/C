@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 
 #include <windows.h>
 #include <stdio.h>
@@ -8,50 +8,50 @@
 #define WIDTH 800
 #define HEIGHT 600
 
-//базовые размеры окна
+//Р±Р°Р·РѕРІС‹Рµ СЂР°Р·РјРµСЂС‹ РѕРєРЅР°
 int windowSizeX = WIDTH;
 int windowSizeY = HEIGHT;
 int windowX = 200;
 int windowY = 100;
-// размеры дочернего окна (юзера)
+// СЂР°Р·РјРµСЂС‹ РґРѕС‡РµСЂРЅРµРіРѕ РѕРєРЅР° (СЋР·РµСЂР°)
 int usrSizeX = 40;
 int usrSizeY = 50;
 int usrX = WIDTH / 2;
 int usrY = HEIGHT * 0.35;
-//константы для проверки изменений размера окна
+//РєРѕРЅСЃС‚Р°РЅС‚С‹ РґР»СЏ РїСЂРѕРІРµСЂРєРё РёР·РјРµРЅРµРЅРёР№ СЂР°Р·РјРµСЂР° РѕРєРЅР°
 int widthLast = WIDTH;
 int okno = 0;
-//окно меина и юзера
+//РѕРєРЅРѕ РјРµРёРЅР° Рё СЋР·РµСЂР°
 HWND hwnd, usr;
-HCURSOR hCursor; // структура курсора
+HCURSOR hCursor; // СЃС‚СЂСѓРєС‚СѓСЂР° РєСѓСЂСЃРѕСЂР°
 
 //prototype
 LONG WINAPI WndProc(HWND, UINT, WPARAM, LPARAM);
 void BackgroundDraw(HWND hwnd, int number);
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, // hInstance – дескриптор(описание) процесса(instance handle) – число, идентифицирующее программу, когда она работает под Windows.Если одновременно работают несколько копий одной программы, каждая копия имеет свое значение hInstance.
-	LPSTR lpCmdLine, int nCmdShow) // szCmdLine — указатель на оканчивающуюся нулем строку, в которой содержатся параметры, переданные в программу из командной строки.Можно запустить программу с параметром командной строки, вставив этот параметр после имени программы в командной строке.
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, // hInstance вЂ“ РґРµСЃРєСЂРёРїС‚РѕСЂ(РѕРїРёСЃР°РЅРёРµ) РїСЂРѕС†РµСЃСЃР°(instance handle) вЂ“ С‡РёСЃР»Рѕ, РёРґРµРЅС‚РёС„РёС†РёСЂСѓСЋС‰РµРµ РїСЂРѕРіСЂР°РјРјСѓ, РєРѕРіРґР° РѕРЅР° СЂР°Р±РѕС‚Р°РµС‚ РїРѕРґ Windows.Р•СЃР»Рё РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ СЂР°Р±РѕС‚Р°СЋС‚ РЅРµСЃРєРѕР»СЊРєРѕ РєРѕРїРёР№ РѕРґРЅРѕР№ РїСЂРѕРіСЂР°РјРјС‹, РєР°Р¶РґР°СЏ РєРѕРїРёСЏ РёРјРµРµС‚ СЃРІРѕРµ Р·РЅР°С‡РµРЅРёРµ hInstance.
+	LPSTR lpCmdLine, int nCmdShow) // szCmdLine вЂ” СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РѕРєР°РЅС‡РёРІР°СЋС‰СѓСЋСЃСЏ РЅСѓР»РµРј СЃС‚СЂРѕРєСѓ, РІ РєРѕС‚РѕСЂРѕР№ СЃРѕРґРµСЂР¶Р°С‚СЃСЏ РїР°СЂР°РјРµС‚СЂС‹, РїРµСЂРµРґР°РЅРЅС‹Рµ РІ РїСЂРѕРіСЂР°РјРјСѓ РёР· РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё.РњРѕР¶РЅРѕ Р·Р°РїСѓСЃС‚РёС‚СЊ РїСЂРѕРіСЂР°РјРјСѓ СЃ РїР°СЂР°РјРµС‚СЂРѕРј РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё, РІСЃС‚Р°РІРёРІ СЌС‚РѕС‚ РїР°СЂР°РјРµС‚СЂ РїРѕСЃР»Рµ РёРјРµРЅРё РїСЂРѕРіСЂР°РјРјС‹ РІ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРµ.
 {
 
-	MSG msg;	// структура сообщения
-	WNDCLASS w; // структура класса окна
-				// Регистрация класса окна
+	MSG msg;	// СЃС‚СЂСѓРєС‚СѓСЂР° СЃРѕРѕР±С‰РµРЅРёСЏ
+	WNDCLASS w; // СЃС‚СЂСѓРєС‚СѓСЂР° РєР»Р°СЃСЃР° РѕРєРЅР°
+				// Р РµРіРёСЃС‚СЂР°С†РёСЏ РєР»Р°СЃСЃР° РѕРєРЅР°
 	memset(&w, 0, sizeof(WNDCLASS));
-	w.style = CS_HREDRAW | CS_VREDRAW; // стили отображения окна
-	w.lpfnWndProc = WndProc; // имя оконной функции (lpfnWndProc - указатель на оконную процедуру)
+	w.style = CS_HREDRAW | CS_VREDRAW; // СЃС‚РёР»Рё РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РѕРєРЅР°
+	w.lpfnWndProc = WndProc; // РёРјСЏ РѕРєРѕРЅРЅРѕР№ С„СѓРЅРєС†РёРё (lpfnWndProc - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РѕРєРѕРЅРЅСѓСЋ РїСЂРѕС†РµРґСѓСЂСѓ)
 	w.hInstance = hInstance;
 	w.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	w.lpszClassName = L"My Class";
 	RegisterClass(&w);
-	// Создание окна
+	// РЎРѕР·РґР°РЅРёРµ РѕРєРЅР°
 	hwnd = CreateWindow(L"My Class", L"street fighter II", WS_OVERLAPPEDWINDOW, windowX, windowY, windowSizeX, windowSizeY, NULL, NULL, hInstance, NULL);
 	RECT Win;
 	GetClientRect(hwnd, &Win);
-	// стартовое положение юзера
+	// СЃС‚Р°СЂС‚РѕРІРѕРµ РїРѕР»РѕР¶РµРЅРёРµ СЋР·РµСЂР°
 	usrX = Win.right * 0.5;
 	usrY = Win.bottom * 0.37;
 	usr = CreateWindow(L"STATIC", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER, usrX, usrY, usrSizeX, usrSizeY, hwnd, 0, hInstance, NULL);
-	//создаем курсор
+	//СЃРѕР·РґР°РµРј РєСѓСЂСЃРѕСЂ
 	hCursor = LoadCursorFromFile(L"C:\\Users\\Volodymyr\\Documents\\Visual Studio 2015\\Projects\\images\\cursor_default.ani");
 	if (hCursor == NULL)
 	{
@@ -61,17 +61,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, // hInstance – 
 
 
 
-	ShowWindow(hwnd, nCmdShow); // отображение
-	UpdateWindow(hwnd);			// перерисовка
+	ShowWindow(hwnd, nCmdShow); // РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ
+	UpdateWindow(hwnd);			// РїРµСЂРµСЂРёСЃРѕРІРєР°
 
-	ShowWindow(usr, nCmdShow); // отображение
+	ShowWindow(usr, nCmdShow); // РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ
 	UpdateWindow(usr);
 
-						// Цикл обработки сообщений
-	while (GetMessage(&msg, NULL, 0, 0)) //Получаем сообщение из очереди
+						// Р¦РёРєР» РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёР№
+	while (GetMessage(&msg, NULL, 0, 0)) //РџРѕР»СѓС‡Р°РµРј СЃРѕРѕР±С‰РµРЅРёРµ РёР· РѕС‡РµСЂРµРґРё
 	{
 		TranslateMessage(&msg);
-		DispatchMessage(&msg); //Передаём сообщение соответствующей функции окна на обработку
+		DispatchMessage(&msg); //РџРµСЂРµРґР°С‘Рј СЃРѕРѕР±С‰РµРЅРёРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№ С„СѓРЅРєС†РёРё РѕРєРЅР° РЅР° РѕР±СЂР°Р±РѕС‚РєСѓ
 		
 		if (VK_ESCAPE == msg.wParam)
             break;
@@ -83,7 +83,7 @@ LONG WINAPI WndProc(HWND hwnd, UINT Message, WPARAM wparam, LPARAM lparam)
 {
 	RECT Rect;
 	GetClientRect(hwnd, &Rect);
-	//константа okno - принимает значение 1 если размер окна был изменён
+	//РєРѕРЅСЃС‚Р°РЅС‚Р° okno - РїСЂРёРЅРёРјР°РµС‚ Р·РЅР°С‡РµРЅРёРµ 1 РµСЃР»Рё СЂР°Р·РјРµСЂ РѕРєРЅР° Р±С‹Р» РёР·РјРµРЅС‘РЅ
 	if ((Rect.right != widthLast))
 	{
 		widthLast = Rect.right;
@@ -91,18 +91,18 @@ LONG WINAPI WndProc(HWND hwnd, UINT Message, WPARAM wparam, LPARAM lparam)
 	}
 	
 	int moveWindow = 10;
-	//Цикл обработки сообщений
+	//Р¦РёРєР» РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёР№
 	switch (Message)
 	{
-		//если нажата клавиша
+		//РµСЃР»Рё РЅР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р°
 	case WM_KEYDOWN: 
-		//проверка на изменение размеров окна
+		//РїСЂРѕРІРµСЂРєР° РЅР° РёР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂРѕРІ РѕРєРЅР°
 		if (okno == 1)
 		{
 			usrX = Rect.right * 0.5;
 			usrY = Rect.bottom * 0.37;
 			UpdateWindow(usr);
-			/* вывод инфо при изменении размера окна
+			/* РІС‹РІРѕРґ РёРЅС„Рѕ РїСЂРё РёР·РјРµРЅРµРЅРёРё СЂР°Р·РјРµСЂР° РѕРєРЅР°
 			wchar_t errWidth[] = L"Rect width is %i";
 			wchar_t terk[512];
 			swprintf(terk, wcslen(terk), errWidth, Rect.right);
@@ -112,7 +112,7 @@ LONG WINAPI WndProc(HWND hwnd, UINT Message, WPARAM wparam, LPARAM lparam)
 			okno = 0;
 		}
 		
-		//цикл обработки движений юзера
+		//С†РёРєР» РѕР±СЂР°Р±РѕС‚РєРё РґРІРёР¶РµРЅРёР№ СЋР·РµСЂР°
 		switch (wparam) {
 		case VK_LEFT:
 			if ((usrX <= (Rect.right * 0.5)) && (usrY > Rect.bottom * 0.38) && (usrY < Rect.bottom * 0.7))
@@ -250,7 +250,7 @@ LONG WINAPI WndProc(HWND hwnd, UINT Message, WPARAM wparam, LPARAM lparam)
 			break;
 		}
 		break;
-	case WM_SETCURSOR: //сообщения от мыши при передвижении и обновление курсора в этой позиции
+	case WM_SETCURSOR: //СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ РјС‹С€Рё РїСЂРё РїРµСЂРµРґРІРёР¶РµРЅРёРё Рё РѕР±РЅРѕРІР»РµРЅРёРµ РєСѓСЂСЃРѕСЂР° РІ СЌС‚РѕР№ РїРѕР·РёС†РёРё
 			if (LOWORD(wparam) == HTCLIENT)
 			{
 				SetCursor(hCursor);
@@ -258,11 +258,11 @@ LONG WINAPI WndProc(HWND hwnd, UINT Message, WPARAM wparam, LPARAM lparam)
 			}
 			break;
 	case WM_PAINT: 
-		// рисуем бг и юзера
+		// СЂРёСЃСѓРµРј Р±Рі Рё СЋР·РµСЂР°
 		BackgroundDraw(hwnd, 0);
 		BackgroundDraw(usr, 1);
 		break;
-	/*case WM_SIZE:  - попытки сделать окно на весь экран, чтобы перекрывало панель задач тоже
+	/*case WM_SIZE:  - РїРѕРїС‹С‚РєРё СЃРґРµР»Р°С‚СЊ РѕРєРЅРѕ РЅР° РІРµСЃСЊ СЌРєСЂР°РЅ, С‡С‚РѕР±С‹ РїРµСЂРµРєСЂС‹РІР°Р»Рѕ РїР°РЅРµР»СЊ Р·Р°РґР°С‡ С‚РѕР¶Рµ
 		if (state > 2)
 		{
 			ShowWindow(hwnd, SW_MAXIMIZE);
@@ -289,39 +289,39 @@ void BackgroundDraw(HWND hwnd, int number)
 	BITMAP Bitmap;
 
 	wchar_t tempPath[512];
-	//путь к картинке с порядковым номером
+	//РїСѓС‚СЊ Рє РєР°СЂС‚РёРЅРєРµ СЃ РїРѕСЂСЏРґРєРѕРІС‹Рј РЅРѕРјРµСЂРѕРј
 	wchar_t backgroundImg[] = L"C:\\Users\\Volodymyr\\Documents\\Visual Studio 2015\\Projects\\images\\IMG%i.BMP";
 	swprintf(tempPath, wcslen(tempPath), backgroundImg, number);
 
-	//печать ошибки если не нашел путь к файлу или файл
+	//РїРµС‡Р°С‚СЊ РѕС€РёР±РєРё РµСЃР»Рё РЅРµ РЅР°С€РµР» РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ РёР»Рё С„Р°Р№Р»
 	wchar_t errLoadBgImg[] = L"Can't found background image! %s";
 	wchar_t temp[512];
 	swprintf(temp, wcslen(temp), errLoadBgImg, backgroundImg);
 
-	//малюем
+	//РјР°Р»СЋРµРј
 	hDC = BeginPaint(hwnd, &PaintStruct);
-	// Загружаем bitmap, который будет отображаться в окне, из файла.
+	// Р—Р°РіСЂСѓР¶Р°РµРј bitmap, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ РІ РѕРєРЅРµ, РёР· С„Р°Р№Р»Р°.
 	hBitmap = LoadImage(NULL, tempPath, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	if (hBitmap == NULL)
 	{
 		MessageBox(hwnd, temp, L"Load image", MB_ICONWARNING | MB_OK);
 	}
-	// получаем размероность загруженного bitmap'a.
+	// РїРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂРѕРЅРѕСЃС‚СЊ Р·Р°РіСЂСѓР¶РµРЅРЅРѕРіРѕ bitmap'a.
 	GetObject(hBitmap, sizeof(BITMAP), &Bitmap);
-	// создаем совместный с контекстом окна контекст в памяти
+	// СЃРѕР·РґР°РµРј СЃРѕРІРјРµСЃС‚РЅС‹Р№ СЃ РєРѕРЅС‚РµРєСЃС‚РѕРј РѕРєРЅР° РєРѕРЅС‚РµРєСЃС‚ РІ РїР°РјСЏС‚Рё
 	hCompatibleDC = CreateCompatibleDC(hDC);
-	// делаем загруженный из фаила bitmap текущим в совместимом контексте
+	// РґРµР»Р°РµРј Р·Р°РіСЂСѓР¶РµРЅРЅС‹Р№ РёР· С„Р°РёР»Р° bitmap С‚РµРєСѓС‰РёРј РІ СЃРѕРІРјРµСЃС‚РёРјРѕРј РєРѕРЅС‚РµРєСЃС‚Рµ
 	hOldBitmap = SelectObject(hCompatibleDC, hBitmap);
-	// определяем размер рабочей области окна
+	// РѕРїСЂРµРґРµР»СЏРµРј СЂР°Р·РјРµСЂ СЂР°Р±РѕС‡РµР№ РѕР±Р»Р°СЃС‚Рё РѕРєРЅР°
 	GetClientRect(hwnd, &Rect);
-	// копируем bitmap с совместимого на основной контекст с масштабированием
+	// РєРѕРїРёСЂСѓРµРј bitmap СЃ СЃРѕРІРјРµСЃС‚РёРјРѕРіРѕ РЅР° РѕСЃРЅРѕРІРЅРѕР№ РєРѕРЅС‚РµРєСЃС‚ СЃ РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµРј
 	StretchBlt(hDC, 0, 0, Rect.right, Rect.bottom, hCompatibleDC, 0, 0, Bitmap.bmWidth, Bitmap.bmHeight, SRCCOPY);
-	// вновь делаем старый bitmap текущим
+	// РІРЅРѕРІСЊ РґРµР»Р°РµРј СЃС‚Р°СЂС‹Р№ bitmap С‚РµРєСѓС‰РёРј
 	SelectObject(hCompatibleDC, hOldBitmap);
-	// удаляем загруженный с диска bitmap
+	// СѓРґР°Р»СЏРµРј Р·Р°РіСЂСѓР¶РµРЅРЅС‹Р№ СЃ РґРёСЃРєР° bitmap
 	DeleteObject(hBitmap);
-	// удаляем совместный контекст
+	// СѓРґР°Р»СЏРµРј СЃРѕРІРјРµСЃС‚РЅС‹Р№ РєРѕРЅС‚РµРєСЃС‚
 	DeleteDC(hCompatibleDC);
-	// освобождаем основной контекст, завершая перерисовку рабочей области окна
+	// РѕСЃРІРѕР±РѕР¶РґР°РµРј РѕСЃРЅРѕРІРЅРѕР№ РєРѕРЅС‚РµРєСЃС‚, Р·Р°РІРµСЂС€Р°СЏ РїРµСЂРµСЂРёСЃРѕРІРєСѓ СЂР°Р±РѕС‡РµР№ РѕР±Р»Р°СЃС‚Рё РѕРєРЅР°
 	EndPaint(hwnd, &PaintStruct);
 }
