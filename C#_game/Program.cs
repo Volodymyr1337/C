@@ -3,11 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-/* for Diagnostic
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Threading;
-*/
+
 namespace cs_game
 {
     internal class Node
@@ -21,13 +17,11 @@ namespace cs_game
     {
         private Node head;
         private Node tail;
-        public int count;
 
         public ListClass() // constructor
         {
             head = null;
             tail = null;
-            count = 0;
         }
         // adding elements
         public void AddNew(string data) 
@@ -49,29 +43,19 @@ namespace cs_game
                 tail.used = false;
                 tail.Next = null;
             }
-            count++;
         }
-        /* print whole list elements
-        public void PrintOut() 
-        {
-            Node ptr = new Node();
-            for (ptr = head; ptr != null; ptr = ptr.Next)
-                Console.WriteLine(ptr.Data);
-        }*/
-
         // print answer word
         public string PrintAnswer() 
         {
             Node ptr = new Node();
             for (ptr = head; ptr != null; ptr = ptr.Next)
-                if (ptr.Data.Length >= 2 && ptr.used == false)
+                if (ptr.Data.Length > 2 && ptr.used == false)
                 {
                     ptr.used = true;
                     return ptr.Data;
                 }
             return "end";
         }
-
         // checking equal word in dictionary
         public byte WordChecking(string userInput, byte len) 
         {
@@ -79,7 +63,7 @@ namespace cs_game
             for (ptr = head; ptr != null; ptr = ptr.Next)
             {
                 string dictionaryWord = ptr.Data;
-                if (dictionaryWord.Length == len && ptr.used == false)
+                if (dictionaryWord.Length == len)
                 {
                     byte i;
                     for (i = 0; i < len; i++)
@@ -88,8 +72,14 @@ namespace cs_game
                         {
                             if (i == (len - 1)) // if all letters are equal
                             {
-                                ptr.used = true;
-                                return 1;
+                                
+                                if (ptr.used == false)
+                                {
+                                    ptr.used = true;
+                                    return 1;
+                                }   
+                                else
+                                    return 2;
                             }
                             continue;
                         }
@@ -105,38 +95,24 @@ namespace cs_game
     {
         static void Main(string[] args)
         {
-
             /* writing dictionary in array of linked lists */           
-            byte k = 0;  // number of the first letter in the word
-            byte n = 1;
-            int count = 0; // count of words in dictonary
             ListClass[] list = new ListClass[26];
-            var file = new StreamReader("dictionary.txt");
-            string word;
-            while ((word = file.ReadLine()) != null)
-            {
-                count++;
-                k = CheckLetter(word);
+            writingDictionary(list);
 
-                // if k != n - creating first li-element
-                if (k != n) 
-                {
-                    list[k] = new ListClass();
-                    list[k].AddNew(word);
-                    n = k;
-                }
-                else
-                    list[k].AddNew(word);
-            }
-            /* end of writing */
+            Action(list);
+            
+            Console.ReadKey();
+        }
 
+        static void Action(ListClass[] list)
+        {
             byte tries = 4;
             string lastWord = "";
             byte start = 0;
             byte correct = 1;
+
             while (tries > 0)
             {
-                
                 /* --- user input --- */
                 string userInput;
                 byte len;
@@ -166,10 +142,10 @@ namespace cs_game
                     }
                 }
                 while (correct == 0 && tries > 0);
+                Console.Clear();
                 start = 1;
                 if (tries > 0)
                 {
-
                     string userInputComplete = userInput.ToLower(); // update to lower case
 
                     // checking number of the first letter
@@ -177,9 +153,14 @@ namespace cs_game
 
                     // checking word in dictionary
                     byte checking = list[index].WordChecking(userInputComplete, len);
-                    if (checking != 1)
+                    if (checking == 0)
                     {
                         Console.WriteLine("There is no such word in the dictionary!");
+                        tries--;
+                    }
+                    else if (checking == 2)
+                    {
+                        Console.WriteLine("This word was used!!");
                         tries--;
                     }
                     else
@@ -188,27 +169,39 @@ namespace cs_game
                         lastWord = list[lastLetter].PrintAnswer();
                     }
                 }
-                //Console.Clear();
+
                 if (tries > 0)
                     Console.WriteLine("Last word: " + lastWord + "\t\t\tYour tries: " + (tries - 1));
                 else
                     Console.WriteLine("You lose!");
             }
-
-            /* !!! DIAGNOSTIC !!!
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            list[index].WordChecking(userInput);
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
-            */
-            /* print out dictionary
-            for (int i = 0; i < 26; i++)1
-                list[i].PrintOut();
-            Console.WriteLine(count);*/
-
-            Console.ReadKey();
         }
+
+        static void writingDictionary(ListClass[] list)
+        {
+
+            byte k = 0;     // number of the first letter in the word
+            byte n = 1;     // number which means is it first li-element
+            int count = 0;  // count of words in dictonary
+            var file = new StreamReader("dictionary.txt");
+            string word;
+            while ((word = file.ReadLine()) != null)
+            {
+                count++;
+                k = CheckLetter(word);
+
+                // if k != n - creating first li-element
+                if (k != n)
+                {
+                    list[k] = new ListClass();
+                    list[k].AddNew(word);
+                    n = k;
+                }
+                else
+                    list[k].AddNew(word);
+            }
+        }
+        // checking number of the first letter in the word 
         public static byte CheckLetter(string word)
         {
             int letter = word[0];
