@@ -12,10 +12,8 @@ public class Arrows : MonoBehaviour {
             return;
         else
         {
-            Debug.Log(gameObject.name);
             if (gameObject.name == "ArrowL")
             {
-                Debug.Log(gameObject.name);
                 PlayerController.Instance.MoveLeft();
             }
             if (gameObject.name == "ArrowR")

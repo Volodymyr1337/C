@@ -37,7 +37,6 @@ public class PlatformSpawn : MonoBehaviour
 
     public void PlatformSpawning()
     {
-        
         float current = Random.Range(-2.5f, 2.5f);
         // чтобы платформы не накладывались одна на другую сравниваем
         // если текущее положение по Х находится в пределах предыдущей платформы, тогда выполняем смещение
@@ -56,7 +55,6 @@ public class PlatformSpawn : MonoBehaviour
             float rand = Random.Range(-1, 1);
             GameObject obj = (rand == 0) ? MoveblePlatform : Platform;
             Instantiate(obj, Spawn.transform.position, Spawn.transform.rotation);
-            Debug.Log(rand);
         }
         else if (Spawn.transform.position.y < N + 20f)
         {
@@ -70,7 +68,6 @@ public class PlatformSpawn : MonoBehaviour
                 obj = Platform;
 
             Instantiate(obj, Spawn.transform.position, Spawn.transform.rotation);
-            Debug.Log(rand);
         }
         else if (Spawn.transform.position.y < N + 30f)
         {
@@ -86,7 +83,6 @@ public class PlatformSpawn : MonoBehaviour
                 obj = Platform;
 
             Instantiate(obj, Spawn.transform.position, Spawn.transform.rotation);
-            Debug.Log(rand);
         }
         else
         {
@@ -104,7 +100,6 @@ public class PlatformSpawn : MonoBehaviour
                 obj = Platform;
 
             Instantiate(obj, Spawn.transform.position, Spawn.transform.rotation);
-            Debug.Log(rand);
         }
 
     }

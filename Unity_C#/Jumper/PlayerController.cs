@@ -21,8 +21,12 @@ public class PlayerController : MonoBehaviour
     public AudioClip audioSpring;
     public AudioClip audioSlow;
 
+    [HideInInspector]
+    public float scores;
+    private float LastScorePos, BestScore;
     // панель рестарта, если зажмурился
     public GameObject Die;
+    public GameObject InputField;
 
     private float move;
 
@@ -38,6 +42,9 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Die.SetActive(false);
+        InputField.SetActive(false);
+
         anim = GetComponent<Animator>();
         Instance = this;
         spring = 1f;
@@ -49,7 +56,7 @@ public class PlayerController : MonoBehaviour
             Destroy(arrows[0]);
             Destroy(arrows[1]);
         }
-        
+        BestScore = PlayerPrefs.GetInt("Score");
     }
 
     void FixedUpdate()
@@ -67,18 +74,6 @@ public class PlayerController : MonoBehaviour
     private void Movements()
     {
         move = Input.acceleration.x;
-        /* ПРОВЕРКА 
-        if (Input.GetKey(KeyCode.A))
-        {
-            move += -0.5f;
-            sprt.flipX = true;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            move += 0.5f;
-            sprt.flipX = false;
-        }
-         КОНЕЦ ПРОВЕРКИ */
          
         if (PlayerPrefs.GetString("Keys") == "off")
         {
@@ -93,10 +88,10 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         
-        if (jump) //нельзя прыгать чаще чем раз в 0.3сек
+        if (jump) 
         {
             timer += Time.deltaTime;
-            if (timer >= 0.1f)
+            if (timer >= 0.1f)  //нельзя прыгать чаще чем раз в 100 мс
             {
                 if (PlayerPrefs.GetString("Sound") != "off")
                     AudioSrc.PlayOneShot(audioJump, 0.2f);
@@ -142,19 +137,26 @@ public class PlayerController : MonoBehaviour
         spring = 1f;    //ресетим множитель
     }
     /* считаем очки */
-    private float LastScorePos;
     private void Scoring()
     {
         if (LastScorePos < transform.position.y)
         {
-            scoreTxt.text = "score: " + Mathf.Round(LastScorePos * 100).ToString();
             LastScorePos = transform.position.y;
+            scores = LastScorePos * 100;
+            scoreTxt.text = "score: " + Mathf.Round(scores).ToString();
+            
         }
-        if ((LastScorePos - 10f) > transform.position.y)
+        //if you die young
+        if ((LastScorePos - 15f) > transform.position.y)
         {
-            Die.SetActive(true);
             sprt.enabled = false;
             rgbd.velocity = Vector3.zero;
+            Die.SetActive(true);
+            if (scores > BestScore)
+            {
+                InputField.SetActive(true);
+                PlayerPrefs.SetInt("Score", (int)scores);
+            }
         }
     }
 
