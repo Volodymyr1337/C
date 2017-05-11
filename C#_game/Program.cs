@@ -4,6 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+/*
+ * For this works, create dictionary.txt
+ * with in-line words (sorted by alphabet) 
+ * or download my https://www.dropbox.com/s/p33picwvixk3ynw/large?dl=0
+ */
+
+
 namespace cs_game
 {
     internal class Node
