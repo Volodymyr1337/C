@@ -89,8 +89,8 @@ public class GridTileMap : MonoBehaviour
         }
         tileResolution = tileTexture.height;
 
-        int w = 10 * tileResolution;
-        int h = 10 * tileResolution;
+        int w = size_X * tileResolution;
+        int h = size_Z * tileResolution;
 
         Texture2D texture = new Texture2D(w, h);
         for (int y = 0; y < size_Z; y++)
