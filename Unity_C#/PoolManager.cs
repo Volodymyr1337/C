@@ -24,7 +24,7 @@ public class PoolManager : MonoBehaviour
         }
     }
         
-    public void CreatePool(GameObject prefab, int key, int count)    // key - индекс в массиве префабов
+    public void CreatePool(GameObject prefab, int key, int count)
     {
 
         if (!poolDictionary.ContainsKey(key))
