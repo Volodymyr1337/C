@@ -15,7 +15,7 @@ public class GridTileMap : MonoBehaviour
 
     public float tileSize = 1f;
 
-    // ТЕКСТУРЫ ВЫСОКОГО  РАЗРЕШЕНИЯ НЕ ЗАГРУЖАТЬ!!! - ЗАВИСНЕТ НАХУЙ 128/(макс 256) в зависимости от размеров карты самое то
+    // ТЕКСТУРЫ ВЫСОКОГО  РАЗРЕШЕНИЯ НЕ ЗАГРУЖАТЬ!!! - ЗАВИСНЕТ! 128/(макс 256) зависит ещё от размеров карты
     public Texture2D tileTexture;   
     int tileResolution;
 
@@ -45,9 +45,9 @@ public class GridTileMap : MonoBehaviour
         for (z = 0; z < vsize_Z; z++)
             for (x = 0; x < vsize_X; x++)
             {
-                vertices[z * vsize_X + x] = new Vector3(x * tileSize, 0, z * tileSize);
+                vertices[z * vsize_X + x] = new Vector3(x * tileSize, z * tileSize, 0);
                 normals[z * vsize_X + x] = Vector3.up;
-                uv[z * vsize_X + x] = new Vector2((float)x / vsize_X, (float)z / vsize_Z);
+                uv[z * vsize_X + x] = new Vector2((float)x / size_X, (float)z / size_Z);
             }
 
         for (z = 0; z < size_Z; z++)
@@ -88,18 +88,18 @@ public class GridTileMap : MonoBehaviour
             return;
         }
         tileResolution = tileTexture.height;
-        Debug.Log(tileTexture.height);
-        int w = size_X * tileResolution;
-        int h = size_Z * tileResolution;
+
+        int w = 10 * tileResolution;
+        int h = 10 * tileResolution;
 
         Texture2D texture = new Texture2D(w, h);
         for (int y = 0; y < size_Z; y++)
             for (int x = 0; x < size_X; x++)
             {
-                //Color c = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));    // просто задает цвет
-                //texture.SetPixels(x, y, с);
-                Color[] terrain = tileTexture.GetPixels(0, 0, tileResolution, tileResolution);                // записывает текстуру в массив цветных пикселей
-                texture.SetPixels(x * tileResolution, y * tileResolution, tileResolution, tileResolution, terrain);
+                Color c = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));    // просто задает цвет
+                texture.SetPixel(x, y, c);
+                //Color[] terrain = tileTexture.GetPixels(0, 0, tileResolution, tileResolution);                // записывает текстуру в массив пикселей
+                //texture.SetPixels(x * tileResolution, y * tileResolution, tileResolution, tileResolution, terrain);
                 
             }
         texture.filterMode = FilterMode.Point;
